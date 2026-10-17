@@ -30,7 +30,16 @@ python cli.py demo --out docs/img
 
 数据表一列一列地拆，每篇配一个能重跑的脚本和一张图。
 
-全部图表用一条命令重生成：
+一条命令跑完全部分析（14 节，约 70 秒）：
+
+`ash
+python deconstructions/run_all.py <动作数据表.xlsx> <nanoka目录>
+`
+
+加上 --charts 会顺带重画所有图。输出一份 docs/DATA-REPORT.md，
+内容是各节的结构化结果，全部由脚本生成，没有手写数字。
+
+单独重画图表：
 
 `ash
 python deconstructions/charts.py <动作数据表.xlsx> <nanoka目录>

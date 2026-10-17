@@ -16,6 +16,8 @@ from collections import defaultdict
 
 from openpyxl import load_workbook
 
+from _shared import load_actions
+
 FPS = 60
 C_NAME, C_ACTION, C_IFRAME = 0, 2, 11
 C_POISE, C_CONCERTO = 19, 22
@@ -59,8 +61,8 @@ def dodge_windows(rows):
     """按动作名聚合「闪避」类动作的无敌帧。"""
     buckets = defaultdict(list)
     for r in rows:
-        if "闪避" in r["action"] and r["iframe"]:
-            buckets[r["action"]].append(r["iframe"])
+        if "闪避" in r["action"] and r["iframe_dur"]:
+            buckets[r["action"]].append(r["iframe_dur"])
 
     out = []
     for action, vals in buckets.items():
@@ -91,11 +93,11 @@ def top_values(rows, key, limit=8, ceiling=1000):
 
 def main():
     xlsx = sys.argv[1] if len(sys.argv) > 1 else r"data\鸣潮动作数据汇总.xlsx"
-    rows = load(xlsx)
+    rows = load_actions(xlsx)
     windows = dodge_windows(rows)
     res = {
         "row_count": len(rows),
-        "actions_with_iframe": sum(1 for r in rows if r["iframe"]),
+        "actions_with_iframe": sum(1 for r in rows if r["iframe_dur"]),
         "dodge_windows": windows,
         "histogram": histogram(windows),
         "poise_top": top_values(rows, "poise"),
