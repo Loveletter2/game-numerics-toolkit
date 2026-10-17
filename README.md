@@ -348,6 +348,22 @@ allocation_report(model, 10)  # 最优分配 vs 贪心 vs 全砸一个
 ```bash
 python case_study/build_demo.py <配装表.xlsx> docs/demo/index.html
 ```
+
+## 工具页：能量计算器
+
+[docs/tools/energy-calculator.html](docs/tools/energy-calculator.html) —— 选角色、排流程，
+算出这条轴能攒多少协奏能量和共鸣能量：
+
+- 60 个角色，274 条官方「回复协奏能量」固定值（估算项会单独标出来）
+- 协奏能量不吃共鸣效率，共鸣能量吃——两条线分开显示
+- 实时显示协奏条进度、大招充能进度、需要几条流程才能攒满
+
+单文件 + 一个数据文件，浏览器直接打开就能用：
+
+```bash
+python tools/build_energy_data.py <nanoka角色目录> docs/tools/energy-data.js
+```
+
 ---
 
 ## 一份真实游戏的完整解码：《鸣潮》九个乘区

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>共鸣 / 协奏能量计算器 · 鸣潮</title>
+<style>
+  :root {
+    --accent: #1f4e79;
+    --accent-light: #2e75b6;
+    --warn: #c00000;
+    --ok: #2e7d32;
+    --bg: #fbfcfd;
+    --line: #dde4ea;
+    --text: #22282d;
+    --muted: #6b757d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Times New Roman", "Songti SC", "SimSun", Georgia, serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 80px; }
+  header { border-bottom: 2px solid var(--accent); padding-bottom: 14px; margin-bottom: 8px; }
+  h1 { font-size: 27px; margin: 0 0 6px; color: var(--accent); letter-spacing: .5px; }
+  .sub { color: var(--muted); font-size: 13.5px; }
+  .rule-note {
+    margin: 18px 0 26px; padding: 12px 16px;
+    background: #fff; border-left: 3px solid var(--accent-light);
+    font-size: 13.5px; color: #39424a;
+  }
+  .rule-note b { color: var(--accent); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 4px;
+    padding: 18px 20px; margin-bottom: 22px;
+  }
+  .card h2 {
+    font-size: 15px; margin: 0 0 14px; color: var(--accent);
+    border-bottom: 1px solid var(--line); padding-bottom: 8px;
+  }
+  label { font-size: 13px; color: var(--muted); display: block; margin-bottom: 4px; }
+  select, input[type=number] {
+    font-family: inherit; font-size: 14px; padding: 6px 8px;
+    border: 1px solid var(--line); border-radius: 3px; background: #fff;
+    color: var(--text); width: 100%;
+  }
+  select:focus, input:focus { outline: 2px solid #cfe0ee; border-color: var(--accent-light); }
+  .row { display: flex; gap: 12px; }
+  .row > div { flex: 1; }
+
+  ul.skills { list-style: none; margin: 12px 0 0; padding: 0; max-height: 460px; overflow: auto; }
+  ul.skills li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 4px; border-bottom: 1px dashed var(--line); font-size: 13.5px;
+  }
+  ul.skills li:last-child { border-bottom: none; }
+  .sk-name { flex: 1; }
+  .sk-type { color: var(--muted); font-size: 12px; min-width: 62px; }
+  .sk-val {
+    font-variant-numeric: tabular-nums; color: var(--accent); font-weight: bold;
+    min-width: 46px; text-align: right;
+  }
+  .tag { font-size: 11px; padding: 1px 5px; border-radius: 2px; }
+  .tag.official { background: #e8f2e9; color: var(--ok); }
+  .tag.estimate { background: #fdf1e3; color: #a2620a; }
+  button {
+    font-family: inherit; cursor: pointer; border-radius: 3px;
+    border: 1px solid var(--accent-light); background: #fff; color: var(--accent);
+    font-size: 13px; padding: 3px 10px;
+  }
+  button:hover { background: #eef5fb; }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  button.primary:hover { background: var(--accent-light); }
+  button.ghost { border-color: var(--line); color: var(--muted); }
+  button.mini { padding: 0 7px; font-size: 13px; line-height: 20px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead th {
+    text-align: left; font-weight: bold; color: var(--accent);
+    border-bottom: 1.5px solid var(--accent); padding: 6px 4px; font-size: 12.5px;
+  }
+  tbody td { padding: 7px 4px; border-bottom: 1px solid #eef2f5; font-variant-numeric: tabular-nums; }
+  tbody tr:hover { background: #f7fafc; }
+  .num { text-align: right; }
+  .empty { color: var(--muted); font-size: 13px; padding: 18px 0; text-align: center; }
+
+  .stat { display: flex; justify-content: space-between; padding: 7px 0; font-size: 14px; }
+  .stat span:last-child { font-variant-numeric: tabular-nums; font-weight: bold; }
+  .stat.big { font-size: 16px; border-top: 1px solid var(--line); margin-top: 6px; padding-top: 12px; }
+  .bar { height: 9px; background: #edf1f4; border-radius: 5px; overflow: hidden; margin: 6px 0 2px; }
+  .bar > i { display: block; height: 100%; background: var(--accent-light); width: 0; transition: width .25s; }
+  .bar.full > i { background: var(--ok); }
+  .bar.over > i { background: var(--warn); }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .warn { color: var(--warn); font-size: 12.5px; }
+  footer { margin-top: 44px; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+  code { background: #f0f4f7; padding: 1px 5px; border-radius: 2px; font-size: 12.5px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>共鸣 / 协奏能量计算器</h1>
+  <div class="sub">选角色 → 排流程 → 算出这条轴能攒多少能量 · 数据来自官方角色数据</div>
+</header>
+
+<div class="rule-note">
+  <b>两条能量线要分开算。</b>
+  协奏能量<b>不吃</b>共鸣效率；共鸣能量<b>吃</b>共鸣效率。<br>
+  基础共鸣能量 = 协奏能量 × 0.5（动作表 2512 条动作「大招回收 ÷ 协奏回收」的中位数）。<br>
+  实际共鸣能量 = 基础共鸣 × 共鸣效率。
+</div>
+
+<div class="grid">
+  <div>
+    <div class="card">
+      <h2>① 选角色</h2>
+      <label for="char">角色</label>
+      <select id="char"></select>
+      <div class="row" style="margin-top:12px">
+        <div>
+          <label for="efficiency">共鸣效率（%）</label>
+          <input id="efficiency" type="number" value="100" min="50" max="400" step="0.1">
+        </div>
+        <div>
+          <label for="cost">大招需求</label>
+          <input id="cost" type="number" value="125" min="50" max="300" step="5">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>② 可选动作 <span style="font-weight:normal;color:#6b757d;font-size:12px">点「+」加入下方流程</span></h2>
+      <ul class="skills" id="skillList"></ul>
+    </div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h2>③ 输出流程</h2>
+      <div id="rotationHost">
+        <div class="empty">还没有动作。从左边点「+」加进来。</div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:8px">
+        <button class="ghost" id="clearBtn">清空流程</button>
+        <button class="ghost" id="copyBtn">复制为文本</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>④ 结果</h2>
+      <div class="stat"><span>协奏能量合计（不吃效率）</span><span id="concTotal">0.0</span></div>
+      <div class="bar" id="concBar"><i></i></div>
+      <div class="hint" id="concHint">协奏条上限 100，攒满可换人</div>
+
+      <div class="stat" style="margin-top:14px"><span>基础共鸣能量（协奏 × 0.5）</span><span id="ultBase">0.0</span></div>
+      <div class="stat"><span>共鸣效率</span><span id="effShow">100%</span></div>
+      <div class="stat"><span>实际共鸣能量</span><span id="ultActual">0.0</span></div>
+      <div class="bar" id="ultBar"><i></i></div>
+      <div class="hint" id="ultHint">大招需求 125</div>
+
+      <div class="stat big"><span>充能进度</span><span id="progress">0%</span></div>
+      <div class="hint" id="cyclesHint"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  数据：官方角色技能数据里的「回复协奏能量」固定值（标 <span class="tag official">官方</span>）；
+  没有固定值的普攻 / 重击 / 共鸣技能按动作表同类型中位数估算（标 <span class="tag estimate">估算</span>）。<br>
+  协奏条上限、共鸣效率对两条线的作用依据第 12、13 篇拆解。窗口外的普攻与闪避未计入，所以结果是下界。
+</footer>
+
+</div>
+
+<script src="energy-data.js"></script>
+<script>
+(function () {
+  const DATA = window.ENERGY_DATA;
+  if (!DATA) {
+    document.body.insertAdjacentHTML('afterbegin',
+      '<p style="color:#c00;padding:20px">没找到 energy-data.js，请和本页面放在同一目录。</p>');
+    return;
+  }
+
+  const RATIO = DATA.ratio || 0.5;
+  const CAP = DATA.concertoCap || 100;
+
+  const $ = (id) => document.getElementById(id);
+  const charSel = $('char');
+  const effInput = $('efficiency');
+  const costInput = $('cost');
+  const skillList = $('skillList');
+  const rotationHost = $('rotationHost');
+
+  // rotation: [{key, count}] where key = index into current character's skills
+  let rotation = [];
+  let current = null;
+
+  function characters() { return DATA.characters || []; }
+
+  function fillCharacters() {
+    charSel.innerHTML = '';
+    characters().forEach((c, i) => {
+      const opt = document.createElement('option');
+      opt.value = String(i);
+      opt.textContent = c.name;
+      charSel.appendChild(opt);
+    });
+  }
+
+  function selectCharacter(idx) {
+    current = characters()[idx];
+    rotation = [];
+    costInput.value = current.cost || 125;
+    renderSkills();
+    renderRotation();
+    compute();
+  }
+
+  function renderSkills() {
+    skillList.innerHTML = '';
+    (current.skills || []).forEach((sk, i) => {
+      const li = document.createElement('li');
+      li.innerHTML =
+        '<span class="sk-name">' + escapeHtml(sk.name) + '</span>' +
+        '<span class="sk-type">' + escapeHtml(sk.type) + '</span>' +
+        '<span class="sk-val">' + sk.concerto.toFixed(1) + '</span>' +
+        '<span class="tag ' + sk.source + '">' + (sk.source === 'official' ? '官方' : '估算') + '</span>';
+      const btn = document.createElement('button');
+      btn.className = 'mini';
+      btn.textContent = '+';
+      btn.title = '加入流程';
+      btn.onclick = () => addAction(i);
+      li.appendChild(btn);
+      skillList.appendChild(li);
+    });
+  }
+
+  function addAction(skillIdx) {
+    const existing = rotation.find((r) => r.skill === skillIdx);
+    if (existing) existing.count += 1;
+    else rotation.push({ skill: skillIdx, count: 1 });
+    renderRotation();
+    compute();
+  }
+
+  function renderRotation() {
+    if (!rotation.length) {
+      rotationHost.innerHTML = '<div class="empty">还没有动作。从左边点「+」加进来。</div>';
+      return;
+    }
+    const rows = rotation.map((r, i) => {
+      const sk = current.skills[r.skill];
+      const conc = sk.concerto * r.count;
+      return (
+        '<tr>' +
+        '<td>' + escapeHtml(sk.name) + '</td>' +
+        '<td class="num">' + sk.concerto.toFixed(2) + '</td>' +
+        '<td class="num">' +
+          '<button class="mini ghost" data-dec="' + i + '">−</button> ' +
+          r.count +
+          ' <button class="mini ghost" data-inc="' + i + '">+</button>' +
+        '</td>' +
+        '<td class="num">' + conc.toFixed(1) + '</td>' +
+        '</tr>'
+      );
+    }).join('');
+
+    rotationHost.innerHTML =
+      '<table><thead><tr><th>动作</th><th class="num">单个协奏</th>' +
+      '<th class="num">次数</th><th class="num">小计</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody></table>';
+
+    rotationHost.querySelectorAll('[data-inc]').forEach((b) => {
+      b.onclick = () => { rotation[+b.dataset.inc].count += 1; renderRotation(); compute(); };
+    });
+    rotationHost.querySelectorAll('[data-dec]').forEach((b) => {
+      b.onclick = () => {
+        const i = +b.dataset.dec;
+        rotation[i].count -= 1;
+        if (rotation[i].count <= 0) rotation.splice(i, 1);
+        renderRotation(); compute();
+      };
+    });
+  }
+
+  function totals() {
+    let conc = 0;
+    rotation.forEach((r) => {
+      conc += current.skills[r.skill].concerto * r.count;
+    });
+    return conc;
+  }
+
+  function compute() {
+    const conc = totals();
+    const base = conc * RATIO;
+    const eff = Math.max(0, Number(effInput.value) || 0) / 100;
+    const actual = base * eff;
+    const cost = Math.max(1, Number(costInput.value) || 125);
+
+    $('concTotal').textContent = conc.toFixed(1);
+    $('ultBase').textContent = base.toFixed(1);
+    $('effShow').textContent = (eff * 100).toFixed(0) + '%';
+    $('ultActual').textContent = actual.toFixed(1);
+
+    const concBar = $('concBar');
+    const concPct = conc / CAP;
+    concBar.firstElementChild.style.width = Math.min(100, concPct * 100) + '%';
+    concBar.className = 'bar' + (conc >= CAP ? ' full' : '');
+    if (conc > CAP) {
+      $('concHint').innerHTML = '<span class="warn">超过上限 ' + CAP + '，超出的 ' +
+        (conc - CAP).toFixed(1) + ' 点会被浪费</span>';
+    } else {
+      $('concHint').textContent = '协奏条上限 ' + CAP + '，已攒 ' +
+        (concPct * 100).toFixed(0) + '%';
+    }
+
+    const ultBar = $('ultBar');
+    const ultPct = actual / cost;
+    ultBar.firstElementChild.style.width = Math.min(100, ultPct * 100) + '%';
+    ultBar.className = 'bar' + (ultPct >= 1 ? ' full' : '');
+    $('ultHint').textContent = '大招需求 ' + cost + '，已攒 ' +
+      (ultPct * 100).toFixed(0) + '%';
+
+    $('progress').textContent = (ultPct * 100).toFixed(1) + '%';
+    if (actual > 0) {
+      const cycles = cost / actual;
+      $('cyclesHint').textContent = cycles <= 1
+        ? '一条流程就够放一次大招。'
+        : '需要约 ' + cycles.toFixed(1) + ' 条同样的流程才能攒满一次大招。';
+    } else {
+      $('cyclesHint').textContent = '还没有动作。';
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"]/g, (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  }
+
+  charSel.onchange = () => selectCharacter(+charSel.value);
+  effInput.oninput = compute;
+  costInput.oninput = compute;
+
+  $('clearBtn').onclick = () => { rotation = []; renderRotation(); compute(); };
+  $('copyBtn').onclick = () => {
+    const lines = rotation.map((r) => {
+      const sk = current.skills[r.skill];
+      return sk.name + ' ×' + r.count + '  (协奏 ' + (sk.concerto * r.count).toFixed(1) + ')';
+    });
+    const conc = totals();
+    const base = conc * RATIO;
+    const eff = (Number(effInput.value) || 0) / 100;
+    const text = [
+      current.name + ' 的能量流程',
+      ...lines,
+      '—',
+      '协奏合计 ' + conc.toFixed(1),
+      '基础共鸣 ' + base.toFixed(1),
+      '实际共鸣 ' + (base * eff).toFixed(1) + '（效率 ' + (eff * 100).toFixed(0) + '%）',
+      '大招需求 ' + costInput.value,
+    ].join('\n');
+    navigator.clipboard.writeText(text).then(
+      () => { $('copyBtn').textContent = '已复制'; setTimeout(() => $('copyBtn').textContent = '复制为文本', 1200); },
+      () => { $('copyBtn').textContent = '复制失败'; setTimeout(() => $('copyBtn').textContent = '复制为文本', 1200); }
+    );
+  };
+
+  fillCharacters();
+  selectCharacter(0);
+})();
+</script>
+</body>
+</html>
