@@ -21,6 +21,7 @@ from numerics.charts import h_bar_chart, line_chart      # noqa: E402
 
 import changelog     # noqa: E402
 import energy        # noqa: E402
+import energy_budget  # noqa: E402
 import enemies       # noqa: E402
 import hitbox        # noqa: E402
 import multipliers   # noqa: E402
@@ -138,6 +139,14 @@ def main():
         os.path.join(OUT, "changelog-kinds.svg"),
         title="更新日志：改动类型分布",
         xlabel="条目数", value_suffix=" 条"))
+
+    eb = energy_budget.analyse(energy_budget.load(os.path.join(nanoka, "zh_character")))
+    made.append(h_bar_chart(
+        ["%g 点大招" % r["cost"] for r in eb["by_cost"]],
+        [r["coverage"] for r in eb["by_cost"]],
+        os.path.join(OUT, "energy-budget.svg"),
+        title="技能组固定充能占大招需求的比例",
+        xlabel="占比", value_suffix="%"))
 
     for p_ in made:
         print("wrote", p_)
