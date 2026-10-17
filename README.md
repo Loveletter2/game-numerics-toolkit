@@ -39,6 +39,7 @@ python cli.py demo --out docs/img
 | 05 | [武器白值差 176 点，实际差多少](deconstructions/05-weapons.md) | 白值差会被百分比放大；五星副属性主暴击，四星主攻击 |
 | 06 | [敌人血量不是一条曲线](deconstructions/06-enemies.md) | 血量是「等级 × 难度档」的查表值；抗性最低 10%，没有 0 抗 |
 | 07 | [所有角色的成长曲线是同一条](deconstructions/07-stats.md) | 1→90 都是 12.50 倍，六个突破倍率 60 个角色完全一致 |
+| 08 | [2 件套填属性，5 件套定玩法](deconstructions/08-sonata.md) | 2 件套全是静态加成，5 件套 22/31 要写触发条件，且都挂在元素效应上 |
 
 ## 它回答四个问题
 
