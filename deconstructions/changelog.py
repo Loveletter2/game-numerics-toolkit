@@ -15,7 +15,6 @@ import os
 import sys
 from collections import Counter
 
-from openpyxl import load_workbook
 
 from _shared import sheet_rows
 

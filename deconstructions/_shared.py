@@ -10,7 +10,6 @@
 """
 from __future__ import annotations
 
-from openpyxl import load_workbook
 
 FPS = 60
 
@@ -42,6 +41,9 @@ _ROWS: dict[tuple[str, str, int], list[tuple]] = {}
 
 
 def _workbook(xlsx: str):
+    # openpyxl 只在真的要读 xlsx 时才需要，惰性导入让纯函数测试能跑在
+    # 什么都不装的环境里（CI 就是这么跑的）。
+    from openpyxl import load_workbook
     import os as _os
     key = _os.path.abspath(xlsx)
     if key not in _WORKBOOKS:

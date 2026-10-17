@@ -13,7 +13,6 @@ import json
 import sys
 from collections import Counter, defaultdict
 
-from openpyxl import load_workbook
 
 from _shared import sheet_rows
 

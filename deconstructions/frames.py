@@ -14,7 +14,6 @@ import json
 import sys
 from collections import defaultdict
 
-from openpyxl import load_workbook
 
 from _shared import load_actions
 
@@ -35,6 +34,7 @@ def num(v):
 
 
 def load(xlsx: str):
+    from openpyxl import load_workbook
     wb = load_workbook(xlsx, data_only=True, read_only=True)
     rows = []
     for sheet in ("角色-女", "角色-男"):

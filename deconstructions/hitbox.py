@@ -14,7 +14,6 @@ import re
 import sys
 from collections import Counter
 
-from openpyxl import load_workbook
 from _shared import load_actions, sheet_rows
 
 SHAPE_RE = re.compile(r"^\s*(矩形|圆柱|球形|扇形|指定目标)")
