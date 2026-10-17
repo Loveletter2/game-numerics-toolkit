@@ -1,11 +1,15 @@
 # game-numerics-toolkit
 
-把游戏数值设计里那些「靠感觉争」的问题，变成**能算、能验证**的代码。
+我在算《鸣潮》。
 
-仓库**零第三方依赖**，只要 Python 3.10+。所有图表都是标准库直接生成的 SVG，`git clone` 下来就能跑，不需要装任何东西。
+具体是算角色在 25 秒轴里打出多少伤害：哪个动作占多少、换一套配装差多少、下一份资源投到哪个乘区最划算。
+
+一开始是为了自己配装。后来发现想算准，得先把伤害公式拆清楚，拆着拆着就整理成了这个仓库。现在它包含两部分：一套通用的数值分析工具，和一份完整的《鸣潮》九区公式解码。
+
+零第三方依赖，Python 3.10+，clone 下来直接跑：
 
 ```bash
-git clone https://github.com/<your-name>/game-numerics-toolkit.git
+git clone https://github.com/Loveletter2/game-numerics-toolkit.git
 cd game-numerics-toolkit
 python cli.py demo --out docs/img
 ```
@@ -18,13 +22,13 @@ python cli.py demo --out docs/img
 
 | 给谁看 | 看什么 |
 |---|---|
-| 只有 60 秒 | [**案例页**](https://loveletter2.github.io/game-numerics-toolkit/docs/demo/) —— 一张真实配装表的可视化，单文件零依赖 |
-| 想知道方法 | [**九区手册**](docs/wuwa-zones.md) —— 完整解码，含六处反直觉修正 |
-| 想确认可信度 | [**校验日志**](docs/validation-log.md) —— 三次发现自己算错的过程 |
+| 只有 60 秒 | [**案例页**](https://loveletter2.github.io/game-numerics-toolkit/docs/demo/)：一张真实配装表，17 个动作的伤害占比 |
+| 想知道怎么算的 | [**九区手册**](docs/wuwa-zones.md)：公式拆解，含六处和直觉相反的修正 |
+| 想看靠不靠谱 | [**我这张表错在哪**](docs/validation-log.md)：三次发现自己算错，包括一次改错又改回来 |
 
 ## 它回答四个问题
 
-这三个问题，社区里讨论了很多年，但大多数讨论停留在「应该是这样吧」。这里给的是可复算的答案。
+下面几个问题社区里争了很多年，大多是「应该是这样吧」。这里给的是能自己跑一遍验证的答案。
 
 ### 一、为什么「均衡堆属性」是对的？
 
