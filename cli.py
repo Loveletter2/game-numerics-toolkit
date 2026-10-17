@@ -259,6 +259,71 @@ def cmd_sql(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_ttk(args: argparse.Namespace) -> int:
+    """配装模型 + 输出轴 + 敌人血量 → 击杀时间。"""
+    from numerics.ttk import Rotation, damage_share, ttk_report
+
+    model = _load(args.config)
+    rotation = Rotation.from_dict(_load_raw(args.rotation))
+
+    targets = []
+    for item in args.enemy or []:
+        name, _, hp = item.partition(":")
+        try:
+            targets.append({"name": name or "敌人", "hp": float(hp)})
+        except ValueError:
+            print("敌人血量格式应为 名字:血量，收到 %r" % item)
+            return 2
+    if not targets:
+        print("至少给一个 --enemy 名字:血量")
+        return 2
+
+    rep = ttk_report(model, rotation, targets)
+    print("=" * 62)
+    print("rotation: %s" % rep["rotation"])
+    print("时长 %.2f 秒   总伤 %.1f   DPS %.1f" % (rep["seconds"], rep["damage"], rep["dps"]))
+    print("=" * 62)
+    print("%-18s %12s %10s %10s %6s" % ("目标", "血量", "TTK(秒)", "需几轮", "一轮杀"))
+    print("-" * 62)
+    for r in rep["targets"]:
+        print("%-18s %12.0f %10.1f %10.2f %6s" % (
+            r["target"], r["hp"], r["ttk"], r["rotations"],
+            "是" if r["kill_in_one"] else "否"))
+
+    if args.share:
+        print("\n各动作伤害占比：")
+        print("%-16s %12s %8s %7s" % ("动作", "伤害", "占比", "帧"))
+        print("-" * 46)
+        for row in damage_share(model, rotation):
+            print("%-16s %12.1f %7.2f%% %7d" % (
+                row["action"], row["damage"], row["share"], row["frames"]))
+    return 0
+
+
+def cmd_tornado(args: argparse.Namespace) -> int:
+    """哪个乘区动了最影响结果。"""
+    from numerics.sensitivity import (format_points, format_tornado,
+                                      sweep_points, sweep_ranges)
+
+    model = _load(args.config)
+
+    print(format_points(sweep_points(model, points=args.points)))
+
+    ranges = {}
+    for item in args.range or []:
+        name, _, pct = item.partition(":")
+        try:
+            ranges[name] = float(pct) / 100.0
+        except ValueError:
+            print("范围格式应为 乘区:百分比，收到 %r" % item)
+            return 2
+    if ranges:
+        print()
+        print("按各乘区的现实可调范围做摆幅（越大越值得动）：")
+        print(format_tornado(sweep_ranges(model, ranges)))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="numerics", description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -309,6 +374,22 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--sql", default=None, help="直接给一句 SQL")
     s.add_argument("--limit", type=int, default=20)
     s.set_defaults(func=cmd_sql)
+
+    k = sub.add_parser("ttk", help="rotation -> dps -> time to kill")
+    k.add_argument("--config", default="examples/wuwa_demo.json")
+    k.add_argument("--rotation", default="examples/rotation_demo.json")
+    k.add_argument("--enemy", action="append", metavar="名字:血量",
+                   help="可重复，例如 --enemy 'Lv90:630254'")
+    k.add_argument("--share", action="store_true", help="同时打印各动作伤害占比")
+    k.set_defaults(func=cmd_ttk)
+
+    o = sub.add_parser("tornado", help="which zone moves the result most")
+    o.add_argument("--config", default="examples/wuwa_demo.json")
+    o.add_argument("--points", type=float, default=1.0,
+                   help="每投入多少点资源")
+    o.add_argument("--range", action="append", metavar="乘区:百分比",
+                   help="该乘区的现实可调范围，可重复，例如 --range ATK:30")
+    o.set_defaults(func=cmd_tornado)
 
     return p
 

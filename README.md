@@ -245,7 +245,28 @@ python cli.py gacha    [--base-rate 0.006] [--soft-pity 66] [--hard-pity 80]
 python cli.py curves   [--levels 80]
 python cli.py demo     [--out docs/img]
 python cli.py sql      [--db data/game.db] [--list | --query NAME | --sql "..."]
+python cli.py ttk      [--rotation examples/rotation_demo.json] [--enemy 名字:血量] [--share]
+python cli.py tornado  [--points 1.0] [--range ATK:30]
 ```
+
+### 从配装算到击杀时间
+
+伤害模型 × 输出轴 × 敌人血量 = 击杀时间。这是设计师真正会争论的数字：
+
+```bash
+python cli.py ttk --rotation examples/rotation_demo.json --enemy "Lv90:630254" --share
+```
+
+### 哪个数字真正在动结果
+
+```bash
+python cli.py tornado                       # 玩家视角：一点资源买到多少
+python cli.py tornado --range ATK:30 --range Crit:15   # 设计者视角：可调范围
+```
+
+这里有个反直觉的结论：**在纯乘积模型里，均匀 ±10% 的龙卷风图是平的**——每个乘区的摆幅
+恰好都等于 20%。这不是 bug，是乘积的性质。所以「哪个乘区最敏感」这个问法要两个视角才
+答得上来。详见 [docs/ttk-and-sensitivity.md](docs/ttk-and-sensitivity.md)。
 
 ### 用 SQL 查游戏数据
 
@@ -293,6 +314,8 @@ allocation_report(model, 10)  # 最优分配 vs 贪心 vs 全砸一个
 | `numerics.wuwa` | 《鸣潮》九区公式：攻击三段、暴击基础值、三段抗性、等级防御常数 | 把解码结果固化成可测代码 |
 | `numerics.charts` | 零依赖 SVG 折线图 / 柱状图 | 出报告、贴图 |
 | `numerics.store` | 数据装进 SQLite，八个预设查询，任意 SQL | 从数据后台取数、多维筛查 |
+| `numerics.ttk` | 输出轴 → 总伤 → DPS → 击杀时间；动作伤害占比 | 判断一轮够不够、差多少 |
+| `numerics.sensitivity` | 点数敏感度、可调范围敏感度、两种视角的排名 | 下一刀该砍哪里 |
 
 ---
 

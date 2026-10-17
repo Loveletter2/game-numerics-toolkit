@@ -1,0 +1,15 @@
+{
+  "label": "示例轴：变奏 → 技能 → 普攻 → 解放（25 秒量级）",
+  "fps": 60,
+  "_comment": "multiplier 是倍率（1.0 = 100%），frames 是动作占用帧数，hits 是段数。这些数字只为演示结构，不是某个真实角色的数据。",
+  "actions": [
+    {"name": "变奏技能", "multiplier": 5.26, "frames": 66, "hits": 1},
+    {"name": "共鸣技能", "multiplier": 8.97, "frames": 84, "hits": 1},
+    {"name": "普攻 1-2 段", "multiplier": 5.77, "frames": 90, "hits": 1},
+    {"name": "重击", "multiplier": 10.82, "frames": 108, "hits": 1},
+    {"name": "普攻 3-4 段", "multiplier": 7.76, "frames": 96, "hits": 1},
+    {"name": "共鸣解放", "multiplier": 20.13, "frames": 210, "hits": 1},
+    {"name": "延奏", "multiplier": 2.00, "frames": 66, "hits": 1},
+    {"name": "声骸技能", "multiplier": 5.75, "frames": 60, "hits": 1}
+  ]
+}

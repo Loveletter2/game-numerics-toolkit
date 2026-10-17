@@ -18,6 +18,14 @@ from .builds import (
     Build, apply_build, build_table, crit_multiplier, enumerate_builds,
     format_insights, insights, to_csv, to_markdown, to_xlsx,
 )
+from .ttk import (
+    Action, Rotation, action_damage, rotation_damage, rotation_dps,
+    time_to_kill, ttk_report, damage_share, optimal_rotation_order,
+)
+from .sensitivity import (
+    Sensitivity, sweep, sweep_points, sweep_ranges, rank as sensitivity_rank,
+    top_lever, investable_only, equalise, format_tornado, format_points,
+)
 
 __all__ = [
     "linear", "exponential", "piecewise", "logarithmic", "marginal", "fit_power_law",
@@ -27,6 +35,11 @@ __all__ = [
     "Build", "apply_build", "build_table", "crit_multiplier", "enumerate_builds",
     "format_insights", "insights", "to_csv", "to_markdown", "to_xlsx",
     "defense_constant", "defense_zone", "resistance_zone", "crit_zone", "baseline_model",
+    "Action", "Rotation", "action_damage", "rotation_damage", "rotation_dps",
+    "time_to_kill", "ttk_report", "damage_share", "optimal_rotation_order",
+    "Sensitivity", "sweep", "sweep_points", "sweep_ranges",
+    "sensitivity_rank", "top_lever", "investable_only", "equalise",
+    "format_tornado", "format_points",
 ]
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
