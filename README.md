@@ -12,6 +12,16 @@ python cli.py demo --out docs/img
 
 ---
 
+---
+
+## 先看这三样
+
+| 给谁看 | 看什么 |
+|---|---|
+| 只有 60 秒 | [**案例页**](https://loveletter2.github.io/game-numerics-toolkit/docs/demo/) —— 一张真实配装表的可视化，单文件零依赖 |
+| 想知道方法 | [**九区手册**](docs/wuwa-zones.md) —— 完整解码，含六处反直觉修正 |
+| 想确认可信度 | [**校验日志**](docs/validation-log.md) —— 三次发现自己算错的过程 |
+
 ## 它回答四个问题
 
 这三个问题，社区里讨论了很多年，但大多数讨论停留在「应该是这样吧」。这里给的是可复算的答案。
