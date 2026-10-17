@@ -3,15 +3,15 @@
 <text x="20" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1f4e79">技能组固定充能占大招需求的比例</text>
 <text x="140" y="68" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">100 点大招</text>
 <rect x="150" y="56" width="520.0" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
-<text x="678.0" y="68" font-family="sans-serif" font-size="11" fill="#666">45%</text>
+<text x="678.0" y="68" font-family="sans-serif" font-size="11" fill="#666">41%</text>
 <text x="140" y="94" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">125 点大招</text>
-<rect x="150" y="82" width="277.3" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
-<text x="435.3" y="94" font-family="sans-serif" font-size="11" fill="#666">24%</text>
+<rect x="150" y="82" width="302.9" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="460.9" y="94" font-family="sans-serif" font-size="11" fill="#666">24%</text>
 <text x="140" y="120" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">150 点大招</text>
-<rect x="150" y="108" width="250.8" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
-<text x="408.8" y="120" font-family="sans-serif" font-size="11" fill="#666">22%</text>
+<rect x="150" y="108" width="273.9" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="431.9" y="120" font-family="sans-serif" font-size="11" fill="#666">22%</text>
 <text x="140" y="146" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">175 点大招</text>
-<rect x="150" y="134" width="197.6" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
-<text x="355.6" y="146" font-family="sans-serif" font-size="11" fill="#666">17%</text>
+<rect x="150" y="134" width="201.9" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="359.9" y="146" font-family="sans-serif" font-size="11" fill="#666">16%</text>
 <text x="150" y="162" font-family="sans-serif" font-size="11" fill="#888">占比</text>
 </svg>

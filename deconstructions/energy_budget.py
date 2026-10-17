@@ -14,6 +14,7 @@ import json
 import os
 import sys
 from collections import defaultdict
+from statistics import median
 
 ULT_TO_CONCERTO = 0.5     # 第 12 篇推出的比值
 
@@ -57,7 +58,7 @@ def analyse(rows):
     table = []
     for cost in sorted(groups):
         vals = sorted(groups[cost])
-        med = vals[len(vals) // 2]
+        med = median(vals)
         table.append({
             "cost": cost,
             "count": len(vals),
