@@ -41,6 +41,7 @@ python cli.py demo --out docs/img
 | 07 | [所有角色的成长曲线是同一条](deconstructions/07-stats.md) | 1→90 都是 12.50 倍，六个突破倍率 60 个角色完全一致 |
 | 08 | [2 件套填属性，5 件套定玩法](deconstructions/08-sonata.md) | 2 件套全是静态加成，5 件套 22/31 要写触发条件，且都挂在元素效应上 |
 | 09 | [六成攻击是盒子](deconstructions/09-hitbox.md) | 矩形 63%；变奏/延奏是唯一圆形占多数的类；判定最大的反而不是攻击 |
+| 10 | [共鸣技能只占 11%](deconstructions/10-multipliers.md) | 倍率的八成在回路/普攻/解放；E 是低倍率高功能的技能 |
 
 ## 它回答四个问题
 
