@@ -15,7 +15,7 @@ import sys
 from collections import Counter
 
 from openpyxl import load_workbook
-from _shared import load_actions
+from _shared import load_actions, sheet_rows
 
 SHAPE_RE = re.compile(r"^\s*(矩形|圆柱|球形|扇形|指定目标)")
 NUM_RE = re.compile(r"-?\d+(?:\.\d+)?")
@@ -51,12 +51,9 @@ def parse(text: str):
 
 
 def load_raw(xlsx):
-    wb = load_workbook(xlsx, data_only=True, read_only=True)
     out = []
     for sheet in ("角色-女", "角色-男"):
-        if sheet not in wb.sheetnames:
-            continue
-        for r in wb[sheet].iter_rows(min_row=2, values_only=True):
+        for r in sheet_rows(xlsx, sheet):
             if not r or len(r) < 48:
                 continue
             action = r[2]
@@ -71,7 +68,6 @@ def load_raw(xlsx):
                 "shape": parsed["shape"],
                 "dims": parsed["dims"],
             })
-    wb.close()
     return out
 
 

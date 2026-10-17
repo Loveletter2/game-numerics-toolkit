@@ -15,6 +15,8 @@ from collections import Counter, defaultdict
 
 from openpyxl import load_workbook
 
+from _shared import sheet_rows
+
 SHEET = "敌对属性列表"
 C_LV, C_HP, C_DEF = 3, 4, 6
 RES_COLS = {"物理": 7, "冰": 8, "火": 9, "雷": 10, "风": 11, "光": 12, "暗": 13}
@@ -33,10 +35,8 @@ def num(v):
 
 
 def load(xlsx):
-    wb = load_workbook(xlsx, data_only=True, read_only=True)
-    ws = wb[SHEET]
     out = []
-    for r in ws.iter_rows(min_row=2, values_only=True):
+    for r in sheet_rows(xlsx, SHEET):
         if not r or len(r) <= max(RES_COLS.values()):
             continue
         lv, hp = num(r[C_LV]), num(r[C_HP])
@@ -48,7 +48,6 @@ def load(xlsx):
             "def": num(r[C_DEF]),
             "res": {k: num(r[i]) for k, i in RES_COLS.items()},
         })
-    wb.close()
     return out
 
 

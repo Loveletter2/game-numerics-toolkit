@@ -30,7 +30,7 @@ python cli.py demo --out docs/img
 
 数据表一列一列地拆，每篇配一个能重跑的脚本和一张图。
 
-一条命令跑完全部分析（14 节，约 70 秒）：
+一条命令跑完全部分析（14 节，约 11 秒）：
 
 `ash
 python deconstructions/run_all.py <动作数据表.xlsx> <nanoka目录>

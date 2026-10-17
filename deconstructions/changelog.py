@@ -17,6 +17,8 @@ from collections import Counter
 
 from openpyxl import load_workbook
 
+from _shared import sheet_rows
+
 SHEET = "更新变动"
 
 # 改动内容的类型；命中即归类，顺序即优先级
@@ -35,11 +37,9 @@ KINDS = [
 
 
 def load_changes(xlsx):
-    wb = load_workbook(xlsx, data_only=True, read_only=True)
-    ws = wb[SHEET]
     out = []
     date = version = None
-    for r in ws.iter_rows(min_row=1, values_only=True):
+    for r in sheet_rows(xlsx, SHEET, header=True):
         if not r or all(x is None for x in r):
             continue
         if r[0]:
@@ -49,7 +49,6 @@ def load_changes(xlsx):
         if not r[1]:
             continue
         out.append({"date": date, "version": version, "text": str(r[1]).strip()})
-    wb.close()
     return out
 
 

@@ -34,6 +34,50 @@ COLS = {
 }
 
 
+# 缓存：整个工作簿只解析一次，各表按需物化。
+# 之前按 (文件, 表) 缓存，结果是每读一张新表就重开一次 10MB 的 xlsx，
+# 反而比不缓存更慢。
+_WORKBOOKS: dict[str, object] = {}
+_ROWS: dict[tuple[str, str, int], list[tuple]] = {}
+
+
+def _workbook(xlsx: str):
+    import os as _os
+    key = _os.path.abspath(xlsx)
+    if key not in _WORKBOOKS:
+        _WORKBOOKS[key] = load_workbook(xlsx, data_only=True, read_only=True)
+    return _WORKBOOKS[key]
+
+
+def sheet_rows(xlsx: str, sheet: str, header: bool = False) -> list[tuple]:
+    """读取一张表的数据行。
+
+    ``header=False`` 跳过第一行（多数表第一行是表头），
+    ``header=True`` 连表头一起返回（更新日志需要）。
+    """
+    import os as _os
+    key = (_os.path.abspath(xlsx), sheet, 1 if header else 0)
+    if key not in _ROWS:
+        wb = _workbook(xlsx)
+        if sheet in wb.sheetnames:
+            _ROWS[key] = list(wb[sheet].iter_rows(min_row=1 if header else 2,
+                                                  values_only=True))
+        else:
+            _ROWS[key] = []
+    return _ROWS[key]
+
+
+def clear_row_cache() -> None:
+    """测试或换文件时清缓存。"""
+    for wb in _WORKBOOKS.values():
+        try:
+            wb.close()
+        except Exception:
+            pass
+    _WORKBOOKS.clear()
+    _ROWS.clear()
+
+
 def _num(v):
     if isinstance(v, (int, float)):
         return float(v)
@@ -47,12 +91,9 @@ def _num(v):
 
 def load_actions(xlsx: str) -> list[dict]:
     """把「角色-女」「角色-男」两页合成一张扁平的动作表。"""
-    wb = load_workbook(xlsx, data_only=True, read_only=True)
     rows: list[dict] = []
     for sheet in ("角色-女", "角色-男"):
-        if sheet not in wb.sheetnames:
-            continue
-        for r in wb[sheet].iter_rows(min_row=2, values_only=True):
+        for r in sheet_rows(xlsx, sheet):
             if not r or len(r) <= COLS["core3"]:
                 continue
             action = r[COLS["action"]]
@@ -69,7 +110,6 @@ def load_actions(xlsx: str) -> list[dict]:
                         "core3", "hitstop_self"):
                 item[key] = _num(item.get(key))
             rows.append(item)
-    wb.close()
     return rows
 
 

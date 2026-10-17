@@ -15,6 +15,8 @@ from collections import Counter, defaultdict
 
 from openpyxl import load_workbook
 
+from _shared import sheet_rows
+
 SHEET = "敌对属性列表"
 C_LV, C_TOUGH, C_RECOVER = 3, 17, 18
 SENTINEL = 9999
@@ -24,10 +26,8 @@ POISE = {"大招": 400, "技能": 40, "普攻": 26.7}
 
 
 def load(xlsx):
-    wb = load_workbook(xlsx, data_only=True, read_only=True)
-    ws = wb[SHEET]
     out = []
-    for r in ws.iter_rows(min_row=2, values_only=True):
+    for r in sheet_rows(xlsx, SHEET):
         if not r or len(r) <= C_RECOVER:
             continue
         lv, t, rec = r[C_LV], r[C_TOUGH], r[C_RECOVER]
@@ -36,7 +36,6 @@ def load(xlsx):
         out.append({"level": lv if isinstance(lv, (int, float)) else None,
                     "toughness": t,
                     "recover": rec if isinstance(rec, (int, float)) else None})
-    wb.close()
     return out
 
 
