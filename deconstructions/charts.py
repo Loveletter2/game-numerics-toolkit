@@ -29,6 +29,7 @@ import poise         # noqa: E402
 import recovery      # noqa: E402
 import sonata        # noqa: E402
 import stats as stats_mod   # noqa: E402
+import toughness     # noqa: E402
 import weapons       # noqa: E402
 from _shared import load_actions      # noqa: E402
 
@@ -147,6 +148,14 @@ def main():
         os.path.join(OUT, "energy-budget.svg"),
         title="技能组固定充能占大招需求的比例",
         xlabel="占比", value_suffix="%"))
+
+    tg = toughness.analyse(toughness.load(xlsx))
+    tiers = [(k, v) for k, v in tg["toughness_values"].items() if k < tg["sentinel"]][:8]
+    made.append(h_bar_chart(
+        ["韧性 %g" % k for k, _ in tiers], [v for _, v in tiers],
+        os.path.join(OUT, "toughness-tiers.svg"),
+        title="敌人韧性：只有几个离散档位",
+        xlabel="敌人数", value_suffix=" 个"))
 
     for p_ in made:
         print("wrote", p_)

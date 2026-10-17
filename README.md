@@ -54,6 +54,7 @@ python deconstructions/charts.py <动作数据表.xlsx> <nanoka目录>
 | 11 | [更新日志里，纯数值改动只占 8%](deconstructions/11-changelog.md) | 一半以上改的是动作和判定 |
 | 12 | [大招能量就是协奏能量的一半](deconstructions/12-ult-energy.md) | 比值固定 0.5；一个大招 = 2.5 条协奏的动作量 |
 | 13 | [大招越贵，充得越慢](deconstructions/13-energy-budget.md) | 高消耗角色没有充能补贴，固定回复占比从 45% 掉到 17% |
+| 14 | [破一个韧性条要几下](deconstructions/14-toughness.md) | 韧性只有十个档位且不随等级变；800 韧性两个大招破 |
 | — | [**总览：怎么调数值**](deconstructions/00-overview.md) | 标准化与差异化的分工 |
 
 ## 它回答四个问题
