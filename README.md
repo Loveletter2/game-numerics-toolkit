@@ -35,6 +35,7 @@ python cli.py demo --out docs/img
 | 01 | [闪避的无敌窗口](deconstructions/01-frames.md) | 只有两档：21 帧和 78 帧，后者是前者的 3.7 倍 |
 | 02 | [协奏能量从哪来](deconstructions/02-energy.md) | 底噪 + 脉冲：58% 的动作给不到 2 点，少数条件动作给 30 以上 |
 | 03 | [削韧值怎么分层](deconstructions/03-poise.md) | 大招中位 100、技能 40、普攻 26.7；400 是事实上的天花板 |
+| 04 | [后摇其实是个常数](deconstructions/04-recovery.md) | 17～24 帧；手感差异来自动作长度，不是收招速度 |
 
 ## 它回答四个问题
 
