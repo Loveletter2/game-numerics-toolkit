@@ -1,0 +1,40 @@
+{
+  "base_damage": 3592.8244202400006,
+  "budget": 10.0,
+  "optimal": {
+    "allocation": {
+      "ATK": 3.333333333333485,
+      "Multiplier": 0.0,
+      "Crit": 0.0,
+      "DMG": 0.0,
+      "Amplify": 0.0,
+      "Resistance": 0.0,
+      "Defense": 0.0,
+      "Final": 3.333333333333485,
+      "Vulnerability": 3.333333333333485
+    },
+    "damage": 3964.216011235937,
+    "gain": 0.103370370370375
+  },
+  "greedy": {
+    "allocation": {
+      "ATK": 3.3399999999999728,
+      "Multiplier": 0.0,
+      "Crit": 0.0,
+      "DMG": 0.0,
+      "Amplify": 0.0,
+      "Resistance": 0.0,
+      "Defense": 0.0,
+      "Final": 3.329999999999973,
+      "Vulnerability": 3.329999999999973
+    },
+    "damage": 3964.215998860898,
+    "gain": 0.10337036692599866
+  },
+  "all_in_one_zone": {
+    "zone": "ATK",
+    "damage": 3952.1068622640005,
+    "gain": 0.09999999999999987
+  },
+  "gap_optimal_vs_all_in": 0.00306397306397721
+}

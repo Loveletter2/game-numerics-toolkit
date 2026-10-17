@@ -1,0 +1,5 @@
+# No third-party dependencies are required.
+#
+# The core toolkit (curves, damage, allocate, gacha, charts) uses only the
+# Python standard library, so `git clone` + `python cli.py demo` works in a
+# bare environment. Python 3.10+ is recommended for the type syntax.
