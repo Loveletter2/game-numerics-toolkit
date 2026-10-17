@@ -30,6 +30,9 @@ python cli.py demo --out docs/img
 
 数据表一列一列地拆，每篇配一个能重跑的脚本。
 
+**先看这篇：[这个游戏是怎么调数值的](deconstructions/00-overview.md)** —— 十篇拆完之后的横向总结。
+一句话概括：凡是玩家会横向比较的地方全部标准化，凡是体现角色个性的地方全部放开。
+
 | # | 拆的是什么 | 一句话结论 |
 |---|---|---|
 | 01 | [闪避的无敌窗口](deconstructions/01-frames.md) | 只有两档：21 帧和 78 帧，后者是前者的 3.7 倍 |
@@ -42,6 +45,7 @@ python cli.py demo --out docs/img
 | 08 | [2 件套填属性，5 件套定玩法](deconstructions/08-sonata.md) | 2 件套全是静态加成，5 件套 22/31 要写触发条件，且都挂在元素效应上 |
 | 09 | [六成攻击是盒子](deconstructions/09-hitbox.md) | 矩形 63%；变奏/延奏是唯一圆形占多数的类；判定最大的反而不是攻击 |
 | 10 | [共鸣技能只占 11%](deconstructions/10-multipliers.md) | 倍率的八成在回路/普攻/解放；E 是低倍率高功能的技能 |
+| — | [**总览：怎么调数值**](deconstructions/00-overview.md) | 标准化与差异化的分工 |
 
 ## 它回答四个问题
 
