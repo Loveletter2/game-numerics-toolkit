@@ -28,6 +28,10 @@
   td.num { text-align:right; font-variant-numeric: tabular-nums; }
   .dot { display:inline-block; width:8px; height:8px; border-radius:50%;
           margin-right:7px; vertical-align:1px; }
+  .legend { display:flex; gap:18px; flex-wrap:wrap; margin-bottom:14px;
+             font-size:13px; color:var(--muted); }
+  .legend i { display:inline-block; width:10px; height:10px; border-radius:2px;
+              margin-right:6px; vertical-align:0; }
   .note { font-size:13px; color:var(--muted); margin-top:12px; }
   code { background:#f3f4f6; padding:1px 5px; border-radius:4px; font-size:13px; }
 </style>
@@ -45,17 +49,23 @@
   </div>
 
   <h2>三人在总伤中的占比</h2>
-  <div class="card"><svg viewBox="0 0 860 74" width="100%" role="img" aria-label="三人伤害占比">
+  <div class="card"><svg viewBox="0 0 860 112" width="100%" role="img" aria-label="三人伤害占比">
 <rect x="0.0" y="10" width="636.4" height="34" fill="#c05000" opacity="0.85"/>
 <text x="318.2" y="32" text-anchor="middle" font-size="13" fill="#fff">心 74%</text>
 <rect x="636.4" y="10" width="204.6" height="34" fill="#1f4e79" opacity="0.85"/>
 <text x="738.7" y="32" text-anchor="middle" font-size="13" fill="#fff">锁暝 24%</text>
 <rect x="841.0" y="10" width="19.0" height="34" fill="#2e7d32" opacity="0.85"/>
 <text x="0" y="66" font-size="11" fill="#888">总伤 226.7万，分摊在 25 秒轴上</text>
+<circle cx="5.0" cy="96" r="5" fill="#c05000"/>
+<text x="15.0" y="100" font-size="12" fill="#333">心 167.8万（74.0%）</text>
+<circle cx="170.0" cy="96" r="5" fill="#1f4e79"/>
+<text x="180.0" y="100" font-size="12" fill="#333">锁暝 54.0万（23.8%）</text>
+<circle cx="335.0" cy="96" r="5" fill="#2e7d32"/>
+<text x="345.0" y="100" font-size="12" fill="#333">守岸人 5.0万（2.2%）</text>
 </svg></div>
 
   <h2>每个动作的伤害贡献</h2>
-  <div class="card"><svg viewBox="0 0 860 300.0" width="100%" role="img" aria-label="每个动作的伤害贡献">
+  <div class="card"><div class="legend"><span><i style="background:#2e7d32"></i>守岸人</span><span><i style="background:#1f4e79"></i>锁暝</span><span><i style="background:#c05000"></i>心</span></div><svg viewBox="0 0 860 300.0" width="100%" role="img" aria-label="每个动作的伤害贡献">
 <rect x="210" y="26.0" width="560.0" height="11.3" rx="3" fill="#c05000" opacity="0.85"/>
 <text x="200" y="35.6" text-anchor="end" font-size="12" fill="#333">心月狐解放</text>
 <text x="778.0" y="35.6" font-size="11" fill="#666">53.1万 · 23.4%</text>

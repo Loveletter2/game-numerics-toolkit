@@ -112,7 +112,7 @@ def bar_svg(actions, total):
 
 
 def owner_svg(per_owner, total):
-    w, h = W, 74
+    w, h = W, 112
     x = 0
     out = [f'<svg viewBox="0 0 {w} {h}" width="100%" role="img" '
            f'aria-label="三人伤害占比">']
@@ -124,8 +124,15 @@ def owner_svg(per_owner, total):
             out.append(f'<text x="{x+seg/2:.1f}" y="32" text-anchor="middle" '
                        f'font-size="13" fill="#fff">{owner} {value/total*100:.0f}%</text>')
         x += seg
-    out.append(f'<text x="0" y="66" font-size="11" fill="#888">'
-               f'总伤 {fmt(total)}，分摊在 {FIGHT_SECONDS} 秒轴上</text>')
+    out.append('<text x="0" y="66" font-size="11" fill="#888">%s</text>'
+               % (u'总伤 %s，分摊在 %d 秒轴上' % (fmt(total), FIGHT_SECONDS)))
+    lx = 0.0
+    for owner, value in sorted(per_owner.items(), key=lambda kv: -kv[1]):
+        color = GROUPS[owner]["color"]
+        out.append('<circle cx="%.1f" cy="96" r="5" fill="%s"/>' % (lx + 5, color))
+        out.append('<text x="%.1f" y="100" font-size="12" fill="#333">%s %s\uff08%.1f%%\uff09</text>'
+                   % (lx + 15, owner, fmt(value), value / total * 100))
+        lx += 165
     out.append("</svg>")
     return "\n".join(out)
 
@@ -160,6 +167,10 @@ HTML = """<!doctype html>
   td.num {{ text-align:right; font-variant-numeric: tabular-nums; }}
   .dot {{ display:inline-block; width:8px; height:8px; border-radius:50%;
           margin-right:7px; vertical-align:1px; }}
+  .legend {{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom:14px;
+             font-size:13px; color:var(--muted); }}
+  .legend i {{ display:inline-block; width:10px; height:10px; border-radius:2px;
+              margin-right:6px; vertical-align:0; }}
   .note {{ font-size:13px; color:var(--muted); margin-top:12px; }}
   code {{ background:#f3f4f6; padding:1px 5px; border-radius:4px; font-size:13px; }}
 </style>
@@ -180,7 +191,7 @@ HTML = """<!doctype html>
   <div class="card">{owner_svg}</div>
 
   <h2>每个动作的伤害贡献</h2>
-  <div class="card">{bar_svg}</div>
+  <div class="card">{action_legend}{bar_svg}</div>
 
   <h2>明细</h2>
   <div class="card">
@@ -227,6 +238,11 @@ def main():
             f'<td class="num">{a["damage"]/total*100:.2f}%</td>'
             f'<td class="num">{"期望" if a["column"]=="E" else "必暴击"}</td></tr>')
 
+    action_legend = '<div class="legend">' + "".join(
+        '<span><i style="background:%s"></i>%s</span>' % (GROUPS[o]["color"], o)
+        for o in GROUPS
+    ) + '</div>'
+
     check_txt = ""
     if check:
         parts = [f'{c["owner"]} 自算 {fmt(c["mine"])} vs 表内 {fmt(c["sheet"])}'
@@ -241,6 +257,7 @@ def main():
         bar_svg=bar_svg(actions, total),
         rows="\n      ".join(table_rows),
         check=check_txt,
+        action_legend=action_legend,
     )
     out.parent.mkdir(parents=True, exist_ok=True)
     io.open(out, "w", encoding="utf-8").write(html)
