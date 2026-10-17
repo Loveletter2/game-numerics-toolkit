@@ -6,6 +6,8 @@
     python cli.py gacha    --base-rate 0.006 --soft-pity 66 --hard-pity 80
     python cli.py curves   --levels 80
     python cli.py demo     --out out
+    python cli.py sql      --db data/game.db --list
+    python cli.py sql      --db data/game.db --query poise_top
 """
 from __future__ import annotations
 
@@ -219,6 +221,44 @@ def cmd_demo(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_sql(args: argparse.Namespace) -> int:
+    """在 game.db 上跑 SQL：列预设、跑预设、或直接给一句 SQL。"""
+    from numerics.store import PRESETS, connect, format_table, query
+
+    if args.list:
+        print("可用的预设查询：")
+        for name, spec in PRESETS.items():
+            print("  %-14s %s" % (name, spec["title"]))
+        print("\n用法：python cli.py sql --db data/game.db --query poise_top")
+        return 0
+
+    if not args.query and not args.sql:
+        print("需要 --list / --query / --sql 三者之一")
+        return 2
+
+    if not Path(args.db).exists():
+        print("找不到数据库：%s" % args.db)
+        print("先建库：python tools/build_db.py <动作数据表.xlsx> %s" % args.db)
+        return 2
+
+    conn = connect(args.db)
+    try:
+        if args.query:
+            spec = PRESETS.get(args.query)
+            if spec is None:
+                print("没有这个预设：%s（用 --list 看全部）" % args.query)
+                return 2
+            print("== %s ==" % spec["title"])
+            rows = query(conn, spec["sql"])
+        else:
+            rows = query(conn, args.sql)
+    finally:
+        conn.close()
+
+    print(format_table(rows, limit=args.limit))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="numerics", description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -261,6 +301,14 @@ def build_parser() -> argparse.ArgumentParser:
     t.add_argument("--max-builds", type=int, default=20000)
     t.add_argument("--no-xlsx", action="store_true")
     t.set_defaults(func=cmd_table)
+
+    s = sub.add_parser("sql", help="query the game database with SQL")
+    s.add_argument("--db", default="data/game.db")
+    s.add_argument("--list", action="store_true", help="列出预设查询")
+    s.add_argument("--query", default=None, help="预设查询名")
+    s.add_argument("--sql", default=None, help="直接给一句 SQL")
+    s.add_argument("--limit", type=int, default=20)
+    s.set_defaults(func=cmd_sql)
 
     return p
 

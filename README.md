@@ -242,7 +242,22 @@ python cli.py table    [--out out] [--top 15] [--no-xlsx]
 python cli.py gacha    [--base-rate 0.006] [--soft-pity 66] [--hard-pity 80]
 python cli.py curves   [--levels 80]
 python cli.py demo     [--out docs/img]
+python cli.py sql      [--db data/game.db] [--list | --query NAME | --sql "..."]
 ```
+
+### 用 SQL 查游戏数据
+
+拆解脚本是一次回答一个问题的写法。把数据装进 SQLite 之后，新问题基本就是一句 SQL：
+
+```bash
+python tools/build_db.py <动作数据表.xlsx> data/game.db    # 建库（这一步用 openpyxl）
+python cli.py sql --db data/game.db --list                 # 看有哪些预设
+python cli.py sql --db data/game.db --query recovery_top    # 后摇最长的动作
+python cli.py sql --db data/game.db --sql "SELECT ..."      # 直接给 SQL
+```
+
+`sqlite3` 是标准库，**这一层没有引入任何第三方依赖**。八个预设查询、表结构与扩展方法见
+[docs/sql.md](docs/sql.md)。
 
 也可以当库用：
 
@@ -275,12 +290,13 @@ allocation_report(model, 10)  # 最优分配 vs 贪心 vs 全砸一个
 | `numerics.gacha` | 软保底 / 硬保底下的期望、分位、方差（解析 + 蒙特卡洛） | 卡池定价、保底设计、付费体验 |
 | `numerics.wuwa` | 《鸣潮》九区公式：攻击三段、暴击基础值、三段抗性、等级防御常数 | 把解码结果固化成可测代码 |
 | `numerics.charts` | 零依赖 SVG 折线图 / 柱状图 | 出报告、贴图 |
+| `numerics.store` | 数据装进 SQLite，八个预设查询，任意 SQL | 从数据后台取数、多维筛查 |
 
 ---
 
 ## 案例页
 
-[\docs/demo/index.html\](docs/demo/index.html) —— 一张真实配装表的可视化：
+[docs/demo/index.html](docs/demo/index.html) —— 一张真实配装表的可视化：
 
 - 25 秒输出轴的逐动作伤害归因
 - 三个角色的伤害占比

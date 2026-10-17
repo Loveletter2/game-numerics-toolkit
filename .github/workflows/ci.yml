@@ -1,0 +1,55 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: py${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # 工具包承诺零第三方依赖，所以这一步故意什么都不装。
+      - name: Unit tests
+        run: python -m unittest discover -s tests -t .
+
+      - name: CLI smoke test
+        run: |
+          python cli.py demo --out out
+          python cli.py damage --config examples/wuwa_demo.json
+          python cli.py allocate --config examples/wuwa_demo.json --budget 10
+          python cli.py gacha --n-sim 20000
+          python cli.py curves --levels 40
+          python cli.py table --config examples/echo_sets.json --out out --no-xlsx
+
+      - name: SQL layer smoke test
+        run: |
+          python - <<'PY'
+          from numerics.store import connect, create, insert_actions, query, PRESETS
+          conn = connect(":memory:")
+          create(conn)
+          insert_actions(conn, [
+              {"action": "大招-伤害", "poise": 400.0, "concerto": 20.0, "ult": 0.0,
+               "startup": 30.0, "duration": 10.0, "end": 220.0},
+              {"action": "普攻-1", "poise": 26.7, "concerto": 1.0, "ult": 0.5,
+               "startup": 8.0, "duration": 4.0, "end": 40.0},
+          ])
+          for name, spec in PRESETS.items():
+              if name.startswith("enemy"):
+                  continue
+              rows = query(conn, spec["sql"])
+              print(f"{name}: {len(rows)} rows")
+          PY
