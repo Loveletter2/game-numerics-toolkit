@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="200" viewBox="0 0 760 200">
+<rect x="0" y="0" width="760" height="200" fill="#ffffff"/>
+<text x="20" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1f4e79">武器基础攻击：各稀有度的中位数</text>
+<text x="140" y="68" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">1★</text>
+<rect x="150" y="56" width="221.1" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="379.1" y="68" font-family="sans-serif" font-size="11" fill="#666">250</text>
+<text x="140" y="94" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">2★</text>
+<rect x="150" y="82" width="243.2" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="401.2" y="94" font-family="sans-serif" font-size="11" fill="#666">275</text>
+<text x="140" y="120" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">3★</text>
+<rect x="150" y="108" width="265.3" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="423.3" y="120" font-family="sans-serif" font-size="11" fill="#666">300</text>
+<text x="140" y="146" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">4★</text>
+<rect x="150" y="134" width="364.4" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="522.4" y="146" font-family="sans-serif" font-size="11" fill="#666">412</text>
+<text x="140" y="172" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">5★</text>
+<rect x="150" y="160" width="520.0" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="678.0" y="172" font-family="sans-serif" font-size="11" fill="#666">588</text>
+<text x="150" y="188" font-family="sans-serif" font-size="11" fill="#888">基础攻击</text>
+</svg>

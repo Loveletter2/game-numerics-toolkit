@@ -134,6 +134,51 @@ def line_chart(series: Mapping[str, tuple[Sequence[float], Sequence[float]]],
     return path
 
 
+def h_bar_chart(labels, values, out, title="", xlabel="", value_suffix="",
+                bar_color="#1f4e79", label_width=150, row_height=26):
+    """Horizontal bars with text labels on the left.
+
+    Vertical bars work when the axis is numeric. Once the categories are
+    words -- especially CJK words -- the horizontal layout is the only one
+    where labels stay readable without rotating them.
+    """
+    if len(labels) != len(values) or not labels:
+        raise ValueError("labels and values must be non-empty and equal length")
+    n = len(labels)
+    height = max(140, 70 + n * row_height)
+    width = 760
+    left = label_width
+    right = 90
+    top = 52
+    span = width - left - right
+    vmax = max(values) or 1.0
+
+    body = ['<rect x="0" y="0" width="%d" height="%d" fill="#ffffff"/>' % (width, height)]
+    body.append('<text x="20" y="26" font-family="sans-serif" font-size="14" '
+                'font-weight="bold" fill="#1f4e79">%s</text>' % _escape(title))
+    for i, (lab, val) in enumerate(zip(labels, values)):
+        y = top + i * row_height
+        w = span * (val / vmax)
+        body.append('<text x="%d" y="%d" text-anchor="end" font-family="sans-serif" '
+                    'font-size="12" fill="#333">%s</text>'
+                    % (left - 10, y + 16, _escape(str(lab))))
+        body.append('<rect x="%d" y="%d" width="%.1f" height="%d" rx="2" '
+                    'fill="%s" opacity="0.85"/>'
+                    % (left, y + 4, w, row_height - 10, bar_color))
+        body.append('<text x="%.1f" y="%d" font-family="sans-serif" font-size="11" '
+                    'fill="#666">%s%s</text>'
+                    % (left + w + 8, y + 16, _fmt(val), _escape(value_suffix)))
+    body.append('<text x="%d" y="%d" font-family="sans-serif" font-size="11" '
+                'fill="#888">%s</text>' % (left, height - 12, _escape(xlabel)))
+    body.append("</svg>")
+    head = ('<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" '
+            'viewBox="0 0 %d %d">' % (width, height, width, height))
+    path = Path(out)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join([head] + body), encoding="utf-8")
+    return path
+
+
 def bar_chart(xs: Sequence[float], ys: Sequence[float], out: str | Path,
               title: str = "", xlabel: str = "", ylabel: str = "",
               marker: tuple[float, str] | None = None) -> Path:

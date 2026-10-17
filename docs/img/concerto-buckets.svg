@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="252" viewBox="0 0 760 252">
+<rect x="0" y="0" width="760" height="252" fill="#ffffff"/>
+<text x="20" y="26" font-family="sans-serif" font-size="14" font-weight="bold" fill="#1f4e79">协奏能量：单次给多少（按档位统计动作数）</text>
+<text x="140" y="68" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">≤0（消耗）</text>
+<rect x="150" y="56" width="6.0" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="164.0" y="68" font-family="sans-serif" font-size="11" fill="#666">10 条</text>
+<text x="140" y="94" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">0～1</text>
+<rect x="150" y="82" width="520.0" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="678.0" y="94" font-family="sans-serif" font-size="11" fill="#666">868 条</text>
+<text x="140" y="120" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">1～2</text>
+<rect x="150" y="108" width="458.3" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="616.3" y="120" font-family="sans-serif" font-size="11" fill="#666">765 条</text>
+<text x="140" y="146" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">2～5</text>
+<rect x="150" y="134" width="379.2" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="537.2" y="146" font-family="sans-serif" font-size="11" fill="#666">633 条</text>
+<text x="140" y="172" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">5～10</text>
+<rect x="150" y="160" width="218.1" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="376.1" y="172" font-family="sans-serif" font-size="11" fill="#666">364 条</text>
+<text x="140" y="198" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">10～20</text>
+<rect x="150" y="186" width="91.7" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="249.7" y="198" font-family="sans-serif" font-size="11" fill="#666">153 条</text>
+<text x="140" y="224" text-anchor="end" font-family="sans-serif" font-size="12" fill="#333">20～50</text>
+<rect x="150" y="212" width="13.8" height="16" rx="2" fill="#1f4e79" opacity="0.85"/>
+<text x="171.8" y="224" font-family="sans-serif" font-size="11" fill="#666">23 条</text>
+<text x="150" y="240" font-family="sans-serif" font-size="11" fill="#888">动作数</text>
+</svg>

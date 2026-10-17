@@ -28,7 +28,13 @@ python cli.py demo --out docs/img
 
 ## 拆解系列
 
-数据表一列一列地拆，每篇配一个能重跑的脚本。
+数据表一列一列地拆，每篇配一个能重跑的脚本和一张图。
+
+全部图表用一条命令重生成：
+
+`ash
+python deconstructions/charts.py <动作数据表.xlsx> <nanoka目录>
+`
 
 **先看这篇：[这个游戏是怎么调数值的](deconstructions/00-overview.md)** —— 十篇拆完之后的横向总结。
 一句话概括：凡是玩家会横向比较的地方全部标准化，凡是体现角色个性的地方全部放开。
