@@ -66,6 +66,23 @@ python deconstructions/charts.py <动作数据表.xlsx> <nanoka目录>
 | 14 | [破一个韧性条要几下](deconstructions/14-toughness.md) | 韧性只有十个档位且不随等级变；800 韧性两个大招破 |
 | — | [**总览：怎么调数值**](deconstructions/00-overview.md) | 标准化与差异化的分工 |
 
+## 想自己跑一遍
+
+不用装任何第三方包，Python 3.10+ 就行。
+
+\\ash
+git clone https://github.com/Loveletter2/game-numerics-toolkit.git
+cd game-numerics-toolkit
+
+python cli.py demo --out docs/img                    # 工具包自带示例
+python deconstructions/run_all.py <动作表.xlsx> <nanoka目录>   # 14 篇拆解，约 11 秒
+\
+**数据不在仓库里。** 一份是社区整理的动作数据表（10MB 左右），一份是从公开站点抓的
+角色/武器/声装数据。两者都以路径参数传进去，仓库只保留脚本和结论。
+这样 clone 下来是干净的，也避免把第三方数据打包分发。
+
+想看每篇怎么算的，直接读对应的 \.py\；想全量重跑，用上面第二条命令。
+
 ## 它回答四个问题
 
 下面几个问题社区里争了很多年，大多是「应该是这样吧」。这里给的是能自己跑一遍验证的答案。
