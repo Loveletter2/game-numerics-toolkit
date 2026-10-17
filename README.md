@@ -1,5 +1,7 @@
 # game-numerics-toolkit
 
+![tests](https://github.com/Loveletter2/game-numerics-toolkit/actions/workflows/ci.yml/badge.svg)
+
 我在算《鸣潮》。
 
 具体是算角色在 25 秒轴里打出多少伤害：哪个动作占多少、换一套配装差多少、下一份资源投到哪个乘区最划算。
