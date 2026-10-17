@@ -32,18 +32,18 @@ python cli.py demo --out docs/img
 
 一条命令跑完全部分析（14 节，约 11 秒）：
 
-`ash
+```bash
 python deconstructions/run_all.py <动作数据表.xlsx> <nanoka目录>
-`
+```
 
-加上 --charts 会顺带重画所有图。输出一份 docs/DATA-REPORT.md，
+加上 `--charts` 会顺带重画所有图。输出一份 `docs/DATA-REPORT.md`，
 内容是各节的结构化结果，全部由脚本生成，没有手写数字。
 
 单独重画图表：
 
-`ash
+```bash
 python deconstructions/charts.py <动作数据表.xlsx> <nanoka目录>
-`
+```
 
 **先看这篇：[这个游戏是怎么调数值的](deconstructions/00-overview.md)** —— 十篇拆完之后的横向总结。
 一句话概括：凡是玩家会横向比较的地方全部标准化，凡是体现角色个性的地方全部放开。
@@ -70,18 +70,20 @@ python deconstructions/charts.py <动作数据表.xlsx> <nanoka目录>
 
 不用装任何第三方包，Python 3.10+ 就行。
 
-\\ash
+```bash
 git clone https://github.com/Loveletter2/game-numerics-toolkit.git
 cd game-numerics-toolkit
 
-python cli.py demo --out docs/img                    # 工具包自带示例
+python cli.py demo --out docs/img                            # 工具包自带示例
 python deconstructions/run_all.py <动作表.xlsx> <nanoka目录>   # 14 篇拆解，约 11 秒
-\
+```
+
 **数据不在仓库里。** 一份是社区整理的动作数据表（10MB 左右），一份是从公开站点抓的
-角色/武器/声装数据。两者都以路径参数传进去，仓库只保留脚本和结论。
+角色 / 武器 / 声骸数据。两者都作为路径参数传进去，仓库里只保留脚本和结论。
 这样 clone 下来是干净的，也避免把第三方数据打包分发。
 
-想看每篇怎么算的，直接读对应的 \.py\；想全量重跑，用上面第二条命令。
+想看每篇怎么算的，直接读对应的 `.py`；想一次性全跑，用上面第二条命令。
+
 
 ## 它回答四个问题
 
@@ -288,9 +290,9 @@ allocation_report(model, 10)  # 最优分配 vs 贪心 vs 全砸一个
 
 重新生成：
 
-\\ash
+```bash
 python case_study/build_demo.py <配装表.xlsx> docs/demo/index.html
-\
+```
 ---
 
 ## 一份真实游戏的完整解码：《鸣潮》九个乘区
