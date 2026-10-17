@@ -28,7 +28,8 @@ python cli.py demo --out docs/img
 
 ## 拆解系列
 
-数据表一列一列地拆，每篇配一个能重跑的脚本和一张图。
+数据表一列一列地拆。每篇一个脚本、一张图、一节「这次哪里没做成」。
+十四篇合起来要回答的是：**这套系统的强度到底由什么决定**。
 
 一条命令跑完全部分析（14 节，约 11 秒）：
 
@@ -45,7 +46,7 @@ python deconstructions/run_all.py <动作数据表.xlsx> <nanoka目录>
 python deconstructions/charts.py <动作数据表.xlsx> <nanoka目录>
 ```
 
-**先看这篇：[这个游戏是怎么调数值的](deconstructions/00-overview.md)** —— 十篇拆完之后的横向总结。
+**先看这篇：[这个游戏是怎么调数值的](deconstructions/00-overview.md)** —— 十四篇拆完之后的横向总结。
 一句话概括：凡是玩家会横向比较的地方全部标准化，凡是体现角色个性的地方全部放开。
 
 | # | 拆的是什么 | 一句话结论 |
