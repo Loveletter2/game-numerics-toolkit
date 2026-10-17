@@ -247,6 +247,7 @@ python cli.py demo     [--out docs/img]
 python cli.py sql      [--db data/game.db] [--list | --query NAME | --sql "..."]
 python cli.py ttk      [--rotation examples/rotation_demo.json] [--enemy 名字:血量] [--share]
 python cli.py tornado  [--points 1.0] [--range ATK:30]
+python cli.py economy  [--config examples/progression_demo.json] [--curve]
 ```
 
 ### 从配装算到击杀时间
@@ -267,6 +268,17 @@ python cli.py tornado --range ATK:30 --range Crit:15   # 设计者视角：可�
 这里有个反直觉的结论：**在纯乘积模型里，均匀 ±10% 的龙卷风图是平的**——每个乘区的摆幅
 恰好都等于 20%。这不是 bug，是乘积的性质。所以「哪个乘区最敏感」这个问法要两个视角才
 答得上来。详见 [docs/ttk-and-sensitivity.md](docs/ttk-and-sensitivity.md)。
+
+### 养成经济：把消耗换成天数
+
+战斗数值问「这一下多疼」，养成经济问「多久能到、卡在哪儿」：
+
+```bash
+python cli.py economy --config examples/progression_demo.json --curve
+```
+
+它会算出满级要多少天、每级等待的离散程度（cv），并自动标出卡点。**工具不需要知道什么是
+「突破」**——它只看时间曲线的形状，照样把六次突破全找出来。详见 [docs/economy.md](docs/economy.md)。
 
 ### 用 SQL 查游戏数据
 
@@ -316,6 +328,7 @@ allocation_report(model, 10)  # 最优分配 vs 贪心 vs 全砸一个
 | `numerics.store` | 数据装进 SQLite，八个预设查询，任意 SQL | 从数据后台取数、多维筛查 |
 | `numerics.ttk` | 输出轴 → 总伤 → DPS → 击杀时间；动作伤害占比 | 判断一轮够不够、差多少 |
 | `numerics.sensitivity` | 点数敏感度、可调范围敏感度、两种视角的排名 | 下一刀该砍哪里 |
+| `numerics.economy` | 消耗曲线 → 天数 → 卡点检测；cv 量化养成节奏 | 定养成时长、找卡点、调平 |
 
 ---
 
