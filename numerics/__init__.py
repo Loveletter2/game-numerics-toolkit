@@ -22,6 +22,10 @@ from .ttk import (
     Action, Rotation, action_damage, rotation_damage, rotation_dps,
     time_to_kill, ttk_report, damage_share, optimal_rotation_order,
 )
+from .economy import (
+    Progression, build_levels, cumulative_cost, days_to_reach, chokepoints,
+    smoothness, report as economy_report, format_report,
+)
 from .sensitivity import (
     Sensitivity, sweep, sweep_points, sweep_ranges, rank as sensitivity_rank,
     top_lever, investable_only, equalise, format_tornado, format_points,
@@ -40,6 +44,8 @@ __all__ = [
     "Sensitivity", "sweep", "sweep_points", "sweep_ranges",
     "sensitivity_rank", "top_lever", "investable_only", "equalise",
     "format_tornado", "format_points",
+    "Progression", "build_levels", "cumulative_cost", "days_to_reach",
+    "chokepoints", "smoothness", "economy_report", "format_report",
 ]
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"

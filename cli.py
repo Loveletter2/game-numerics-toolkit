@@ -324,6 +324,49 @@ def cmd_tornado(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_economy(args: argparse.Namespace) -> int:
+    """养成曲线：总消耗、满级天数、卡点。"""
+    from numerics.economy import Progression, build_levels, chokepoints, format_report, report, smoothness
+
+    cfg = _load_raw(args.config)
+    spec = cfg.get("spec")
+    if cfg.get("levels"):
+        levels = cfg["levels"]
+    elif spec:
+        levels = build_levels(
+            base=float(spec["base"]),
+            growth=float(spec["growth"]),
+            count=int(spec["count"]),
+            ascension={int(k): float(v) for k, v in (spec.get("ascension") or {}).items()},
+        )
+    else:
+        print("配置里需要 levels 或 spec")
+        return 2
+
+    income = args.income or float(cfg.get("daily_income", 0))
+    if income <= 0:
+        print("需要正数的每日产出：--income 或配置里的 daily_income")
+        return 2
+
+    prog = Progression(label=cfg.get("label", ""), levels=levels, daily_income=income)
+    rep = report(prog, top=args.top)
+    print(format_report(rep))
+
+    if args.curve:
+        days = prog.days()
+        inc = []
+        prev = 0.0
+        for d in days:
+            inc.append(d - prev)
+            prev = d
+        print("\n每级等待（天）：")
+        step = max(1, len(inc) // args.points)
+        for i in range(0, len(inc), step):
+            bar = "#" * max(1, int(40 * inc[i] / max(inc)))
+            print("  Lv%-3d %8.2f  %s" % (i + 1, inc[i], bar))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="numerics", description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -390,6 +433,14 @@ def build_parser() -> argparse.ArgumentParser:
     o.add_argument("--range", action="append", metavar="乘区:百分比",
                    help="该乘区的现实可调范围，可重复，例如 --range ATK:30")
     o.set_defaults(func=cmd_tornado)
+
+    e = sub.add_parser("economy", help="progression cost curve, days to max, chokepoints")
+    e.add_argument("--config", default="examples/progression_demo.json")
+    e.add_argument("--income", type=float, default=0.0, help="每日产出，覆盖配置里的值")
+    e.add_argument("--top", type=int, default=5, help="列出几个卡点")
+    e.add_argument("--curve", action="store_true", help="打印每级等待的柱状图")
+    e.add_argument("--points", type=int, default=20)
+    e.set_defaults(func=cmd_economy)
 
     return p
 
