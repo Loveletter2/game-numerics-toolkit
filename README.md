@@ -37,6 +37,7 @@ python cli.py demo --out docs/img
 | 03 | [削韧值怎么分层](deconstructions/03-poise.md) | 大招中位 100、技能 40、普攻 26.7；400 是事实上的天花板 |
 | 04 | [后摇其实是个常数](deconstructions/04-recovery.md) | 17～24 帧；手感差异来自动作长度，不是收招速度 |
 | 05 | [武器白值差 176 点，实际差多少](deconstructions/05-weapons.md) | 白值差会被百分比放大；五星副属性主暴击，四星主攻击 |
+| 06 | [敌人血量不是一条曲线](deconstructions/06-enemies.md) | 血量是「等级 × 难度档」的查表值；抗性最低 10%，没有 0 抗 |
 
 ## 它回答四个问题
 
