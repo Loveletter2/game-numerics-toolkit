@@ -52,6 +52,25 @@ def load(xlsx):
     return out
 
 
+def tiers(rows, dps, min_share=3):
+    """同一等级下被多个敌人共用的血量 —— 说明它是查表值而不是逐怪配置。"""
+    from collections import Counter
+    by_lv = {}
+    for r in rows:
+        by_lv.setdefault(r["level"], []).append(round(r["hp"]))
+    out = []
+    for lv in sorted(by_lv):
+        if lv < 85:
+            continue
+        c = Counter(by_lv[lv])
+        hp, n = c.most_common(1)[0]
+        if n < min_share:
+            continue
+        out.append({"level": lv, "hp": hp, "shared_by": n,
+                    "ttk": round(hp / dps, 1) if dps else None})
+    return out
+
+
 def analyse(rows, dps):
     by_lv = defaultdict(list)
     for r in rows:
@@ -83,6 +102,7 @@ def analyse(rows, dps):
         "curve": curve,
         "resistance_histogram": dict(sorted(res_hist.items())),
         "dps_assumption": dps,
+        "tiers": tiers(rows, dps),
     }
 
 

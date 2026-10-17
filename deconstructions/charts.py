@@ -20,6 +20,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from numerics.charts import h_bar_chart, line_chart      # noqa: E402
 
 import energy        # noqa: E402
+import enemies       # noqa: E402
 import hitbox        # noqa: E402
 import multipliers   # noqa: E402
 import poise         # noqa: E402
@@ -116,6 +117,16 @@ def main():
         os.path.join(OUT, "multiplier-share.svg"),
         title="技能倍率都花在哪：按技能类型占比",
         xlabel="占比", value_suffix="%"))
+
+    en = enemies.analyse(enemies.load(xlsx), 90695.0)
+    tiers = en.get("tiers") or []
+    if tiers:
+        made.append(h_bar_chart(
+            ["Lv%d" % x["level"] for x in tiers],
+            [x["ttk"] for x in tiers],
+            os.path.join(OUT, "enemy-ttk.svg"),
+            title="打掉该等级最常见血量需要多久（DPS 90,695）",
+            xlabel="秒", value_suffix=" 秒"))
 
     for p_ in made:
         print("wrote", p_)
