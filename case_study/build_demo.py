@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """把「心 / 锁暝 / 守岸人」的输出轴表生成为一个自包含的 HTML 案例页。
 
 设计原则：
@@ -27,7 +27,7 @@ GROUPS = {
 FIGHT_SECONDS = 25
 
 W, H = 860, 300
-PAD_L, PAD_R, PAD_T, PAD_B = 210, 90, 24, 16
+PAD_L, PAD_R, PAD_T, PAD_B = 268, 96, 24, 16
 
 
 def load(xlsx: Path):
@@ -101,7 +101,7 @@ def bar_svg(actions, total):
         w = a["damage"] / actions[0]["damage"] * inner
         out.append(f'<rect x="{PAD_L}" y="{y+2:.1f}" width="{w:.1f}" '
                    f'height="{seg_h-4:.1f}" rx="3" fill="{a["color"]}" opacity="0.85"/>')
-        label = a["label"][:14]
+        label = a["label"][:18]
         out.append(f'<text x="{PAD_L-10}" y="{y+seg_h/2+4:.1f}" text-anchor="end" '
                    f'font-size="12" fill="#333">{label}</text>')
         pct = a["damage"] / total * 100
@@ -269,3 +269,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
