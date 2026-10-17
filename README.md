@@ -33,6 +33,7 @@ python cli.py demo --out docs/img
 | # | 拆的是什么 | 一句话结论 |
 |---|---|---|
 | 01 | [闪避的无敌窗口](deconstructions/01-frames.md) | 只有两档：21 帧和 78 帧，后者是前者的 3.7 倍 |
+| 02 | [协奏能量从哪来](deconstructions/02-energy.md) | 底噪 + 脉冲：58% 的动作给不到 2 点，少数条件动作给 30 以上 |
 
 ## 它回答四个问题
 
