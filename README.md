@@ -51,6 +51,8 @@ python deconstructions/charts.py <动作数据表.xlsx> <nanoka目录>
 | 08 | [2 件套填属性，5 件套定玩法](deconstructions/08-sonata.md) | 2 件套全是静态加成，5 件套 22/31 要写触发条件，且都挂在元素效应上 |
 | 09 | [六成攻击是盒子](deconstructions/09-hitbox.md) | 矩形 63%；变奏/延奏是唯一圆形占多数的类；判定最大的反而不是攻击 |
 | 10 | [共鸣技能只占 11%](deconstructions/10-multipliers.md) | 倍率的八成在回路/普攻/解放；E 是低倍率高功能的技能 |
+| 11 | [更新日志里，纯数值改动只占 8%](deconstructions/11-changelog.md) | 一半以上改的是动作和判定 |
+| 12 | [大招能量就是协奏能量的一半](deconstructions/12-ult-energy.md) | 比值固定 0.5；一个大招 = 2.5 条协奏的动作量 |
 | — | [**总览：怎么调数值**](deconstructions/00-overview.md) | 标准化与差异化的分工 |
 
 ## 它回答四个问题

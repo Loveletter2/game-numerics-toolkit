@@ -19,6 +19,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from numerics.charts import h_bar_chart, line_chart      # noqa: E402
 
+import changelog     # noqa: E402
 import energy        # noqa: E402
 import enemies       # noqa: E402
 import hitbox        # noqa: E402
@@ -127,6 +128,16 @@ def main():
             os.path.join(OUT, "enemy-ttk.svg"),
             title="打掉该等级最常见血量需要多久（DPS 90,695）",
             xlabel="秒", value_suffix=" 秒"))
+
+    cl = changelog.analyse(
+        changelog.load_changes(xlsx),
+        changelog.load_names(os.path.join(nanoka, "zh_character")))
+    kinds = cl["kinds"]
+    made.append(h_bar_chart(
+        list(kinds.keys()), list(kinds.values()),
+        os.path.join(OUT, "changelog-kinds.svg"),
+        title="更新日志：改动类型分布",
+        xlabel="条目数", value_suffix=" 条"))
 
     for p_ in made:
         print("wrote", p_)
